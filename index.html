@@ -54,14 +54,27 @@
           <img src="assets/images/profile-pic.png" width="30%;">
           <img src="http://www.natcom.org/uploadedImages/More_Scholarly_Resources/Doctoral_Program_Resource_Guide/Colorado%20Logo.jpg" width="30%;">
           <img src="http://psychedout.club/themes/bootstrap_lite/images/psyched-out-logo.png" width="30%;">
-          <h2>@alexfinnarn</h2>
-          <h2>Finn's Web</h2>
+          <a href="https://cu.taleo.net/careersection/2/jobdetail.ftl?job=04504&lang=en">CU Junior Developer Position</a>
+          <h3>@alexfinnarn</h3>
+          <h3>Finn's Web</h3>
         </section>
 
         <section>
-          <img style="background-color:#00A818;height:400px" src="https://cucumber.io/images/cucumber-mark-white.svg">
-          <p><a style="color:#00A818;font-size:2em" href="https://cucumber.io/">https://cucumber.io/</a></p>
+          <img  src="http://hanwax.github.io/assets/tdd_flow.png">
+          <p><a style="font-size:0.75em" href="https://en.wikipedia.org/wiki/Test-driven_development">https://en.wikipedia.org/wiki/Test-driven_development</a></p>
         </section>
+
+        <section>
+          <img  style="height:680px;" src="http://image.slidesharecdn.com/functionaltestingpatterns-120112062420-phpapp02/95/functional-testing-patterns-18-728.jpg">
+        </section>
+
+
+        <section>
+          <img style="" src="https://camo.githubusercontent.com/d8d967f1ba57d0f7857152ff0c3ca6503deb48f4/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f3238323739372f62656861742f62656861742e706e67">
+          <img  src="https://s3.amazonaws.com/media-p.slid.es/uploads/gwengwaihir/images/74719/mink-logo.png">
+          <p><a style="font-size:1.5em" href="http://docs.behat.org/en/v3.0/">http://docs.behat.org/en/v3.0/</a></p>
+        </section>
+
 
         <section>
           <img src="http://www.itapagro.com/images/gherkin.jpg">
@@ -71,281 +84,141 @@
         </section>
 
         <section>
-          <h2>Different tools for different teams</h2>
-          <div style="width:45%;float:left;"><img src="assets/images/single-person.jpg"></div>
-          <div style="width:45%;float:left;"><img src="assets/images/team.jpg"></div>
+          <pre>
+            <code style="max-height:800px;width:900px;">
+Feature: Photo Gallery Access
+  Test access to and creation of photo galleries.
+
+  @api
+  Scenario Outline: All users should be able to view a photo gallery node.
+
+  Given I am logged in as a user with the <\role\> role
+    When I create a "photo_gallery" node with the title "New Gallery"
+  Then I should see <\message\>
+
+  Examples:
+  | role            | message        |
+  | content_editor  | "New Gallery"  |
+  | site_owner      | "New Gallery"  |
+  | administrator   | "New Gallery"  |
+  | developer       | "New Gallery"  |
+  | edit_my_content | "New Gallery"  |
+
+  @api @node_creation
+  Scenario: An anonymous user should be able to view Photo Gallery content.
+
+  Given I am an anonymous user
+    And I create a "photo_gallery" node with the title "New Gallery"
+  Then I should see "New Gallery"
+            </code>
+          </pre>
         </section>
 
         <section>
-          <section>
-            <h2>Founding Forkers</h2>
+          <pre>
+            <code style="max-height:800px;width:900px;">
+Feature: WYSIWYG Shortcodes.
+  Test using CKEditor shortcodes.
 
-            <h3>Jen Lampton</h3>
-            <p>Backdrop Project Lead</p>
-            <p>@jenlampton</p>
+@api @javascript @wysiwyg
+Scenario: A content editor should be able to add an image caption shortcode.
 
-            <h3>Nate Haug</h3>
-            <p>Backdrop Technical Lead</p>
-            <p>@quicksketch</p>
-          </section>
-
-          <section>
-            <h4>Backdrop was founded by</h4>
-            <h2>Drupal Developers</h2>
-            <ul>
-              <li>Habitat for Humanity</li>
-              <li>The Grammys</li>
-              <li>Oxfam International</li>
-              <li>Harvard</li>
-              <li>Bay Area Rapid Transit</li>
-              <li>Tesla Motors</li>
-            </ul>
-          </section>
-
-          <section>
-            <h4>Backdrop was founded by</h4>
-            <h2>Drupal Trainers</h2>
-            <ul>
-                <li>Combined we’ve taught over 1,500 students</li>
-                <li>Each created materials for in-person training classes</li>
-                <li>Each featured in online training videos</li>
-                <li>Nate: Lullabot trainer since 2005</li>
-                <li>Jen: Director of training at Chapter Three, 2010-2012</li>
-                <li>Nate: Co-author O'Reilly book "Using Drupal"</li>
-            </ul>
-          </section>
-
-          <section>
-            <h4>Backdrop was founded by</h4>
-            <h2>Drupal Core Developers</h2>
-            <h3>Nate</h3>
-              -- AJAX Framework &amp; drag-and-drop systems in Drupal 6<br/>
-              -- File &amp; Image modules in Drupal 7<br/>
-              -- Dialog system &amp; CKEditor in Drupal 8<br/>
-            <h3>Jen</h3>
-              -- First core patch included in Drupal 7.14<br/>
-              -- Drupal core usability team member, D7 &amp; D8<br/>
-              -- Twig initiative lead, Drupal 8 (2011 - 2013)<br/>
-          </section>
-
-          <section>
-            <h4>Backdrop was founded by</h4>
-            <h2>Drupal Community Advocates</h2>
-            <ul>
-              <li>Lead Organizer, Bay Area Drupal Camp</li>
-              <li>Organizing Committee, DrupalCon SF 2010</li>
-              <li>Spoken @ 95+ Drupal Camps &amp; Cons, combined.</li>
-            </ul>
-          </section>
+Given I am logged in as a user with the "content_editor" role
+  When I go to "node/add/page"
+  And I fill in "Title" with "My Image Caption Shortcode"
+  And I attach the file "/data/web/express/clean/profiles/express/tests/..."
+  And I fill in "Alternate text" with "Ralphie"
+  And I press the "Upload" button
+Then I should see a ".image-widget-data" element
+  When I press the "Insert" button
+  And I wait for AJAX
+  # TODO Figure out how to switch to iframe contexts
+  #And I switch to iframe ".image-medium"
+  #And I press the "Image Caption Shortcode Generator" button
+  #And I wait for AJAX
+            </code>
+          </pre>
         </section>
 
         <section>
-          <h1>Why Fork Drupal?</h1>
-          <img src="assets/images/fork-arrows.png">
-          <img src="assets/logos/druplicon.png">
-          <img src="assets/logos/backdrop.png">
+          <pre>
+            <code style="max-height:800px;width:900px;">
+use Behat\Behat\Context\Step\Given;
+
+/**
+* Defines application features from the specific context.
+*/
+class ExpressContext extends RawDrupalContext
+  implements SnippetAcceptingContext {
+
+  /**
+   * @BeforeSuite
+   * Enable bundle and add authentication data.
+   */
+  public static function prepare($scope) {
+    $data = array(
+    'sids' => array (
+    'directory' => 'directory',
+    ),
+    'authenticationMode' => 1,
+    'loginConflictResolve' => 2,
+    'acctCreation' => 4,
+    'loginUIUsernameTxt' => NULL,
+    'loginUIPasswordTxt' => NULL,
+    ....
+    );
+    variable_set('ldap_authentication_conf', $data);
+  }
+}
+            </code>
+          </pre>
         </section>
 
         <section>
-          <section data-background="assets/backgrounds/slate.jpg" class="dark">
-            <img src="assets/images/enterprise.jpg">
-            <h2>Direction</h2>
-          </section>
-
-          <section>
-            <h2>Drupal 8 is going enterprise</h2>
-            <blockquote cite="http://drupal.com/why-drupal-8">
-              Drupal 8 beta is the latest, greatest release of the world's most widely used enterprise web CMS.
-            </blockquote>
-            <p><a href="http://drupal.com/why-drupal-8">http://drupal.com/why-drupal-8</a></p>
-          </section>
-
-          <section>
-            <h2>Drupal Code</h2>
-            <ul>
-              <li>Huge codebase (3x more Drupal code by bytes)</li>
-              <li>More dependencies (on external libraries)</li>
-              <li>Rewriting everything to Object Oriented code</li>
-              <li>Symfony-framework based HTTP Kernel</li>
-              <li>Increased complexity in coding patterns (dependency injection, controllers for services, Doctrine-based class annotations, etc, etc)</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2>Drupal Cost</h2>
-            <ul>
-              <li>Ongoing maintenance costs</li>
-              <li>Specialized (expensive) hosting</li>
-              <li>Specialized (expensive) developers</li>
-              <li>Migration from version to version (not upgrades)</li>
-            </ul>
-          </section>
-        </section>
-
-        <section data-background="assets/backgrounds/slate.jpg" class="dark">
-          <img src="assets/images/raised-hands.jpg">
-          <h2>Decision Making Process</h2>
+          <pre>
+            <code style="max-height:800px;width:900px;">/**
+* @Given I wait for AJAX
+*/
+public function iWaitForAjax() {
+  $this->getSession()->wait(5000,
+    'typeof jQuery !== "undefined" && jQuery.active === 0
+    && document.readyState === "complete"');
+}
+/**
+* @When /^I disable the "(?P<\text\>(?:[^"]|\\")*)" module$/
+*/
+public function iDisableTheModule($text) {
+  module_disable(array($text));
+}
+/**
+* @AfterStep
+*/
+public function takeScreenShotAfterFailedStep($scope) {
+  if (99 === $scope->getTestResult()->getResultCode()) {
+    $driver = $this->getSession()->getDriver();
+    if (!($driver instanceof Selenium2Driver)) {
+      return;
+    }
+  file_put_contents('/tmp/test.png',
+    $this->getSession()->getDriver()->getScreenshot());
+  }
+}
+            </code>
+          </pre>
         </section>
 
         <section>
-          <h3>Drupal Decision Making Process</h3>
-          <h1>Do-Ocracy</h1>
-          <blockquote cite="blog.nerdery.com/2013/02/do-ocracy-and-the-drupal-contrib-ecosystem">
-            Drupal is a do-ocracy, [...] things happen within the community because people are willing to do them.
-          </blockquote>
-          <p>- Andrea "zendoodles" Zoper</p>
-          <p><small><a href="http://blog.nerdery.com/2013/02/do-ocracy-and-the-drupal-contrib-ecosystem">http://blog.nerdery.com/2013/02/do-ocracy-and-the-drupal-contrib-ecosystem</a></small></p>
-        </section>
-
-        <section>
-          <section>
-            <h3>Backdrop Decision Making Process</h3>
-            <h1>PMC</h1>
-            <p>Project Management Committee</p>
-            <img src="assets/logos/apache.png">
-            <p><small><a href="https://backdropcms.org/leadership" target="_blank">https://backdropcms.org/leadership</a></small></p>
-          </section>
-
-          <section id="fragments">
-           <h2>Backdrop Principles</h2>
-            <ol>
-              <li class="fragment"><strong>Backwards compatibility</strong> is important</li>
-              <li class="fragment">Write <strong>code</strong> for the majority</li>
-              <li class="fragment">Include <strong>features</strong> for the majority</li>
-              <li class="fragment">Ensure Backdrop can be <strong>extended</strong></li>
-              <li class="fragment">Meet <strong>low</strong> system requirements</li>
-              <li class="fragment">Plan and <strong>schedule</strong> releases</li>
-              <li class="fragment">Always remain <strong>Free &amp; Open Source</strong></li>
-            </ol>
-            <p><small><a href="https://backdropcms.org/philosophy" target="_blank">https://backdropcms.org/philosophy</a></small></p>
-          </section>
-
-          <section>
-            <h1>Backdrop Mission</h1>
-            <blockquote cite="https://backdropcms.org/philosophy">
-              Backdrop CMS enables people to build highly customized websites, <span class="fragment grow highlight-red">affordably</span>, through collaboration and open source software.
-            </blockquote>
-            <p><small><a href="https://backdropcms.org/philosophy" target="_blank">https://backdropcms.org/philosophy</a></small></p>
-          </section>
-
-        </section>
-        
-        <section>
-         <h2> How can we make building websites more affordable?</h2>
-         <ol>
-           <li>Include out-of-box functionality that people need.</li>
-           <li>Simplify the architecture (less training required)</li>
-           <li>Always provide an upgrade path (starting with D7 to B1)</li>
-           <li>Maintain backwards compatibility:
-           <ul>
-             <li>Make it fast to port modules</li>
-             <li>Make it easy for existing developers</li>
-           </ul>
-           </li>
-           <li>More to come!</li>
-         </ol>
-        </section>
-
-        <section data-background="assets/backgrounds/slate.jpg" class="dark">
-          <img src="assets/images/toilet-line.jpg">
-          <h2>When can I use it?</h2>
-        </section>
-
-         <section>
-          <h2>When can I use Drupal 8?</h2>
-          <blockquote cite="https://drupalreleasedate.com">
-            Drupal will be released when it's ready.
-          </blockquote>
-          <p>(+- 6 months)</p>
-          <p>Current estimate: <strong>August, 2015</strong></p>
-          <p><small><a href="https://drupalreleasedate.com" target="_blank">https://drupalreleasedate.com</a></small></p>
-        </section>
-
-         <section>
-          <h2>When can I use Backdrop CMS?</h2>
-          <h1>NOW</h1>
-          <p><strong>Backdrop 1.0 released January 15, 2015</strong></p>
-          <p>Backdrop 1.1 released May 15, 2015</p>
-        </section>
-
-        <section>
-          <h2>Top Modules</h2>
-          views<br>
-          ctools<br>
-          token<br>
-          pathauto<br>
-          libraries<br>
-          entity<br>
-          admin_menu<br>
-          webform<br>
-          imce<br>
-          date<br>
-          google_analytics<br>
-          wysiwyg<br>
-          jquery_update<br>
-          ckeditor<br>
-          link<br>
-          backup_migrate<br>
-          rules<br>
-          module_filter<br>
-        </section>
-
-        <section>
-          <h2>Community growth</h2>
-          <h4>Since January 15th, 2015</h4>
-          <ul>
-            <li>New or Ported modules: <strong>135</strong></li>
-            <li>Contributed group members: <strong>38</strong></li>
-          </ul>
-          <p><a href="https://github.com/backdrop-contrib">https://github.com/backdrop-contrib</a></p>
-        </section>
-
-        <section>
-          <h1>Demo Time!</h1>
-        </section>
-
-        <section>
-          <h1>Get involved</h1>
-          <p>Google Hangouts every Thursday 1pm PT</p>
-          <p>mini-sprints every Thursday after the meeting</p>
-          <p>&nbsp;</p>
-          <p>
-            IRC: #backdrop<br>
-            <a href="http://backdropcms.org">http://backdropcms.org</a><br>
-            <a href="http://github.com/backdrop/backdrop">github.com/backdrop/backdrop</a><br>
-            <a href="http://twitter.com/backdropcms">@backdropcms</a>
-          </p>
+          <div ><img style="max-height:650px;" src="assets/images/test.png"></div>
         </section>
 
         <section>
           <h1>Questions?</h1>
           <p>&nbsp;</p>
-          <p>
-            IRC: #backdrop<br>
-            <a href="http://backdropcms.org">http://backdropcms.org</a><br>
-            <a href="http://github.com/backdrop/backdrop">github.com/backdrop/backdrop</a><br>
-            <a href="http://twitter.com/backdropcms">@backdropcms</a>
-          </p>
         </section>
 
         <section>
-          <h1>Backdrop CMS</h1>
-          <h3>for small-medium sized business <br>
-            &amp; non-profits</h3>
-          <p><a href="http://backdropcms.org">http://backdropcms.org</a></p>
-        </section>
-
-        <section>
-          <h4>Image Credits</h4>
-          <p><small>
-            SquareSpace: http://commons.wikimedia.org/wiki/File:Squarespace_Logo.png<br>
-            Wordpress: https://wordpress.org/about/logos <br>
-            Backdrop: https://backdropcms.org/about/logo <br>
-            Drupal: https://www.drupal.org/node/9068 <br>
-            USS Enterprise: http://thescifichristian.com/2013/09/tng-theology-remember-me <br>
-            Raised hands: http://frenchspin.com/en/site/everything/articles<br>
-            Toilet line: http://www.gameskinny.com/ujnkp/the-pax-toilet-situation<br>
-          </small></p>
+          <h1>Demo time...</h1>
+          <div ><img style="max-height:700px;" src="https://media.giphy.com/media/A34x7CEKUkCyc/giphy.gif"></div>
         </section>
 
       </div>
