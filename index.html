@@ -16,11 +16,28 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700" media="all" />
 
+    <link rel="shortcut icon" href="http://beetownbeeclub.org/favicon.ico" type="image/vnd.microsoft.icon" />
+
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/backdrop.css" id="theme">
 
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <style type="text/css">
+      .l-h {
+        line-height: 1.5em !important;
+      }
+      .reveal blockquote {
+        width: 95% !important;
+      }
+      .reveal pre {
+        box-shadow: none !important;
+      }
+      .reveal pre code {
+        background-color: #000000;
+      }
+    </style>
 
     <!-- Printing and PDF exports -->
     <script>
@@ -51,36 +68,75 @@
         </section>
 
         <section>
-          <img src="assets/images/profile-pic.png" width="30%;">
-          <img src="http://www.natcom.org/uploadedImages/More_Scholarly_Resources/Doctoral_Program_Resource_Guide/Colorado%20Logo.jpg" width="30%;">
-          <img src="http://psychedout.club/themes/bootstrap_lite/images/psyched-out-logo.png" width="30%;">
-          <a href="https://cu.taleo.net/careersection/2/jobdetail.ftl?job=04504&lang=en">CU Junior Developer Position</a>
+          <img src="assets/images/profile-pic.png" width="30%;" alt="My Profile Picture">
+          <img src="http://www.natcom.org/uploadedImages/More_Scholarly_Resources/Doctoral_Program_Resource_Guide/Colorado%20Logo.jpg" width="30%;" alt="University of Colorado Logo">
+          <img src="http://psychedout.club/themes/bootstrap_lite/images/psyched-out-logo.png" width="30%;" alt="PsychedOut! Club Podcast">
+          <a href="https://cu.taleo.net/careersection/2/jobdetail.ftl?job=04504&lang=en">CU Developer Position</a>
           <h3>@alexfinnarn</h3>
           <h3>Finn's Web</h3>
         </section>
 
         <section>
-          <img  src="http://hanwax.github.io/assets/tdd_flow.png">
+          <img src="assets/images/who_are_you.png" alt="Who Are You?" />
+        </section>
+
+        <section>
+          <h2 style="margin-bottom:1.0em">Leading...<span class="fragment">Questions?</span></h2>
+          <p class="fragment">Ever encounter unclear requirements?</p>
+          <p class="fragment">Do manual testing now?...kind of?</p>
+          <p class="fragment">Something break and you didn’t know it?</p>
+        </section>
+
+        <section>
+          <h2>Objectives</h2>
+          <ul>
+            <li class="fragment l-h">Know what BDD is and the motivation for it</li>
+            <li class="fragment l-h">Understand the testing ecosystem and specifically acceptance tests</li>
+            <li class="fragment l-h">Know what automated tests are and how to use them</li>
+            <li class="fragment l-h">Be able to immediately use your knowledge to write Behat tests</li>
+            <li class="fragment l-h">Introduce gotchas at the end from things I’ve learned and let anyone else share</li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="http://hanwax.github.io/assets/tdd_flow.png" alt="Test Driven Development Workflow">
           <p><a style="font-size:0.75em" href="https://en.wikipedia.org/wiki/Test-driven_development">https://en.wikipedia.org/wiki/Test-driven_development</a></p>
         </section>
 
         <section>
-          <img  style="height:680px;" src="http://image.slidesharecdn.com/functionaltestingpatterns-120112062420-phpapp02/95/functional-testing-patterns-18-728.jpg">
+          <img style="height:680px;" src="http://image.slidesharecdn.com/functionaltestingpatterns-120112062420-phpapp02/95/functional-testing-patterns-18-728.jpg" alt="Relationship of Tests">
         </section>
 
+        <section>
+          <h2 style="margin-bottom:1.0em">XP + DDD</h2>
+          <blockquote>"Behaviour-driven development is an “outside-in” methodology. It starts at the outside by <strong>identifying business outcomes</strong>, and then drills down into the feature set that will achieve those outcomes."</blockquote>
+          <p>- Dan North <a href="https://dannorth.net/whats-in-a-story/">"What's In A Story"</a></p>
+          <p class="fragment"><strong>Acceptance Criteria FTW!</strong></p>
+        </section>
+
+        <section>
+          <h2>A Requirement of Sorts</h2>
+          <pre>
+            <code style="max-height:800px;width:900px;">
+  When I go Drupalcamp Colorado as an attendee
+    And I listen to the Behat session
+  Then I will feel smarter than if I stayed at a Holiday Inn Express
+            </code>
+          </pre>
+          <p class="fragment">"As a [role] I want [feature] so that [benefit]"</p>
+        </section>
+
+        <section>
+          <img src="http://www.itapagro.com/images/gherkin.jpg">
+          <p class="fragment" style="font-size:2.2em">Given...</p>
+          <p class="fragment" style="font-size:1.6em">When... And...</p>
+          <p class="fragment" style="font-size:2.2em">Then...</p>
+        </section>
 
         <section>
           <img style="" src="https://camo.githubusercontent.com/d8d967f1ba57d0f7857152ff0c3ca6503deb48f4/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f3238323739372f62656861742f62656861742e706e67">
           <img  src="https://s3.amazonaws.com/media-p.slid.es/uploads/gwengwaihir/images/74719/mink-logo.png">
           <p><a style="font-size:1.5em" href="http://docs.behat.org/en/v3.0/">http://docs.behat.org/en/v3.0/</a></p>
-        </section>
-
-
-        <section>
-          <img src="http://www.itapagro.com/images/gherkin.jpg">
-          <p style="font-size:2.2em">Given...</p>
-          <p style="font-size:1.6em">When... And...</p>
-          <p style="font-size:2.2em">Then...</p>
         </section>
 
         <section>
@@ -222,6 +278,15 @@ public function takeScreenShotAfterFailedStep($scope) {
           <h1>Demo time...</h1>
           <div ><img style="max-height:700px;" src="https://media.giphy.com/media/A34x7CEKUkCyc/giphy.gif"></div>
         </section>
+
+        <section>
+          <h1>Image Credits</h1>
+          <p>&nbsp;</p>
+          <a href="http://2.bp.blogspot.com/-b4Mally1sgQ/Vnb3IpzuQtI/AAAAAAAAR24/s2M2milCx-E/s1600/2015-12-20%2B12.42.27.png">Who Are You?</a>
+          <a href="http://beetownbeeclub.org/favicon.ico">Bee Favicon</a>
+
+        </section>
+
 
       </div>
     </div>
