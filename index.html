@@ -26,7 +26,7 @@
 
     <style type="text/css">
       .l-h {
-        line-height: 1.5em !important;
+        line-height: 1.3em !important;
       }
       .reveal blockquote {
         width: 95% !important;
@@ -71,7 +71,6 @@
           <img src="assets/images/profile-pic.png" width="30%;" alt="My Profile Picture">
           <img src="http://www.natcom.org/uploadedImages/More_Scholarly_Resources/Doctoral_Program_Resource_Guide/Colorado%20Logo.jpg" width="30%;" alt="University of Colorado Logo">
           <img src="http://psychedout.club/themes/bootstrap_lite/images/psyched-out-logo.png" width="30%;" alt="PsychedOut! Club Podcast">
-          <a href="https://cu.taleo.net/careersection/2/jobdetail.ftl?job=04504&lang=en">CU Developer Position</a>
           <h3>@alexfinnarn</h3>
           <h3>Finn's Web</h3>
         </section>
@@ -94,7 +93,7 @@
             <li class="fragment l-h">Understand the testing ecosystem and specifically acceptance tests</li>
             <li class="fragment l-h">Know what automated tests are and how to use them</li>
             <li class="fragment l-h">Be able to immediately use your knowledge to write Behat tests</li>
-            <li class="fragment l-h">Introduce gotchas at the end from things I’ve learned and let anyone else share</li>
+            <li class="fragment l-h">Talk about gotchas from things I’ve learned and let anyone else share</li>
           </ul>
         </section>
 
@@ -108,7 +107,7 @@
         </section>
 
         <section>
-          <h2 style="margin-bottom:1.0em">XP + DDD</h2>
+          <h2 style="margin-bottom:1.0em">TDD + DDD</h2>
           <blockquote>"Behaviour-driven development is an “outside-in” methodology. It starts at the outside by <strong>identifying business outcomes</strong>, and then drills down into the feature set that will achieve those outcomes."</blockquote>
           <p>- Dan North <a href="https://dannorth.net/whats-in-a-story/">"What's In A Story"</a></p>
           <p class="fragment"><strong>Acceptance Criteria FTW!</strong></p>
@@ -140,27 +139,32 @@
         </section>
 
         <section>
+          <h2>Feature</h2>
+          <ul>
+            <li>Group of tests that relate to each other</li>
+            <li>Can be a user story</li>
+            <li>creation.photo_gallery.feature</li>
+          </ul>
           <pre>
             <code style="max-height:800px;width:900px;">
-Feature: Photo Gallery Access
-  Test access to and creation of photo galleries.
+Feature: Photo Gallery Creation
+  As a content editor
+  I want to be able to create a photo gallery
+  so that visitors can see awesome photos
+            </code>
+          </pre>
+        </section>
 
-  @api
-  Scenario Outline: All users should be able to view a photo gallery node.
-
-  Given I am logged in as a user with the <\role\> role
-    When I create a "photo_gallery" node with the title "New Gallery"
-  Then I should see <\message\>
-
-  Examples:
-  | role            | message        |
-  | content_editor  | "New Gallery"  |
-  | site_owner      | "New Gallery"  |
-  | administrator   | "New Gallery"  |
-  | developer       | "New Gallery"  |
-  | edit_my_content | "New Gallery"  |
-
-  @api @node_creation
+        <section>
+          <h2>Scenario</h2>
+          <ul>
+            <li>An actual test in a feature file</li>
+            <li>Should only be testing one thing, but...</li>
+            <li>Look for repetition</li>
+          </ul>
+          <pre>
+            <code style="max-height:800px;width:900px;">
+  @api @node_creation @photo_gallery
   Scenario: An anonymous user should be able to view Photo Gallery content.
 
   Given I am an anonymous user
@@ -171,10 +175,44 @@ Feature: Photo Gallery Access
         </section>
 
         <section>
+          <h2>Scenario Outline</h2>
           <pre>
             <code style="max-height:800px;width:900px;">
-Feature: WYSIWYG Shortcodes.
-  Test using CKEditor shortcodes.
+  @api @node_creation @photo_gallery
+  Scenario Outline: All users should be able to view a photo gallery node.
+
+  Given I am logged in as a user with the &lt;role&gt; role
+    When I create a "photo_gallery" node with the title "New Gallery"
+  Then I should see &lt;message&gt;
+
+  Examples:
+  | role            | message        |
+  | content_editor  | "New Gallery"  |
+  | site_owner      | "New Gallery"  |
+  | administrator   | "New Gallery"  |
+  | developer       | "New Gallery"  |
+  | edit_my_content | "New Gallery"  |
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>@Tags</h2>
+          <pre>
+            <code style="max-height:800px;width:900px;">
+  @api @node_creation @broken @exclude_when_x @photo_gallery
+  Scenario: An anonymous user should be able to view Photo Gallery content.
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Selenium vs. Goutte</h2>
+          <pre>
+            <code style="max-height:800px;width:900px;">Feature: WYSIWYG Shortcodes.
+  As a content editor
+  I should be able to use shortcodes
+  to add more value to my content.
 
 @api @javascript @wysiwyg
 Scenario: A content editor should be able to add an image caption shortcode.
@@ -182,7 +220,7 @@ Scenario: A content editor should be able to add an image caption shortcode.
 Given I am logged in as a user with the "content_editor" role
   When I go to "node/add/page"
   And I fill in "Title" with "My Image Caption Shortcode"
-  And I attach the file "/data/web/express/clean/profiles/express/tests/..."
+  And I attach the file "/path/to/assets/folder/..."
   And I fill in "Alternate text" with "Ralphie"
   And I press the "Upload" button
 Then I should see a ".image-widget-data" element
@@ -197,74 +235,125 @@ Then I should see a ".image-widget-data" element
         </section>
 
         <section>
+          <h2>Steps</h2>
           <pre>
-            <code style="max-height:800px;width:900px;">
-use Behat\Behat\Context\Step\Given;
-
+            <code style="max-height:800px;width:900px;">use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\Behat\Context\SnippetAcceptingContext;
 /**
-* Defines application features from the specific context.
-*/
-class ExpressContext extends RawDrupalContext
-  implements SnippetAcceptingContext {
-
+ * Defines application features from the specific context.
+ */
+class BDD extends RawDrupalContext implements SnippetAcceptingContext {
   /**
-   * @BeforeSuite
-   * Enable bundle and add authentication data.
+   * @When /^I create a "(?P&lt;content_type&gt;(?:[^"]|\\")*)" node
+   * with the title "(?P&lt;title&gt;(?:[^"]|\\")*)"$/
    */
-  public static function prepare($scope) {
-    $data = array(
-    'sids' => array (
-    'directory' => 'directory',
-    ),
-    'authenticationMode' => 1,
-    'loginConflictResolve' => 2,
-    'acctCreation' => 4,
-    'loginUIUsernameTxt' => NULL,
-    'loginUIPasswordTxt' => NULL,
-    ....
-    );
-    variable_set('ldap_authentication_conf', $data);
+  public function iCreateANodeWithTheTitle($content_type, $title) {
+    // Create Node.
+    $node = new stdClass();
+    $node->title = $title;
+    $node->type = $content_type;
+    node_object_prepare($node);
+    node_save($node);
+    // Go to node page.
+    $this->visitPath('node/' . $node->nid);
   }
-}
-            </code>
+}</code>
           </pre>
         </section>
 
         <section>
+          <h2>More Steps</h2>
           <pre>
             <code style="max-height:800px;width:900px;">/**
-* @Given I wait for AJAX
-*/
+ * @Given I wait for AJAX
+ */
 public function iWaitForAjax() {
   $this->getSession()->wait(5000,
     'typeof jQuery !== "undefined" && jQuery.active === 0
     && document.readyState === "complete"');
 }
 /**
-* @When /^I disable the "(?P<\text\>(?:[^"]|\\")*)" module$/
-*/
+ * @When /^I disable the "(?P<\text\>(?:[^"]|\\")*)" module$/
+ */
 public function iDisableTheModule($text) {
   module_disable(array($text));
-}
-/**
-* @AfterStep
-*/
-public function takeScreenShotAfterFailedStep($scope) {
-  if (99 === $scope->getTestResult()->getResultCode()) {
-    $driver = $this->getSession()->getDriver();
-    if (!($driver instanceof Selenium2Driver)) {
-      return;
-    }
-  file_put_contents('/tmp/test.png',
-    $this->getSession()->getDriver()->getScreenshot());
-  }
 }
             </code>
           </pre>
         </section>
 
         <section>
+          <h2>Hooks</h2>
+          <pre>
+            <code style="max-height:800px;width:900px;">/**
+ * @BeforeSuite    @AfterSuite
+ * @BeforeFeature  @AfterFeature
+ * @BeforeScenario @AfterScenario
+ * @BeforeStep     @AfterStep
+ */
+
+/**
+ * @AfterStep
+ */
+public function takeScreenShotAfterFailedStep($scope) {
+  if (99 === $scope->getTestResult()->getResultCode()) {
+    $driver = $this->getSession()->getDriver();
+    if (!($driver instanceof Selenium2Driver)) {
+      return;
+    }
+    file_put_contents('/tmp/test.png',
+    $this->getSession()->getDriver()->getScreenshot());
+  }
+}</code>
+          </pre>
+        </section>
+
+        <section>
           <div ><img style="max-height:650px;" src="assets/images/test.png"></div>
+        </section>
+
+        <section>
+          <h2>Tips</h2>
+          <ul>
+            <li class="fragment l-h">Create step definitions before code (behat --append-snippets)</li>
+            <li class="fragment l-h">Look for duplication of steps and too many steps in a scenario</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Duplication</h2>
+          <pre>
+            <code style="max-height:800px;width:900px;">@api
+Scenario Outline: Image styles should be the correct dimensions
+  Given I am logged in as a user with the "developer" role
+  When I go to "admin/config/media/image-styles/edit/&lt;style&gt;"
+  Then I should see &lt;message&gt;
+
+  Examples:
+  | style                     | message                                   |
+  | hero                      | "Scale width 1500 (upscaling allowed)"    |
+  | backstretch               | "Scale 1500x1000"                         |
+  | large_square_thumbnail    | "Focal Point Scale And Crop 600x600"      |
+  | large_wide_thumbnail      | "Focal Point Scale And Crop 600x300"      |
+  | preview                   | "Scale 240x240 (upscaling allowed)"       |
+  | small                     | "Scale width 300 (upscaling allowed)"     |
+  | small_thumbnail           | "Scale width 100"                         |
+  | square                    | "Focal Point Scale And Crop 180x180"      |
+  | square_thumbnail          | "Focal Point Scale And Crop 180x180"      |
+...
+...
+           </code>
+          </pre>
+        </section>
+
+        <section>
+          <h2>Tips</h2>
+          <ul>
+            <li class="l-h">Create step definitions before code (behat --append-snippets)</li>
+            <li class="l-h">Look for duplication of steps and too many steps in a scenario</li>
+            <li class="fragment l-h">Setup steps for getting to a manual point and testing a specific step</li>
+            <li class="fragment l-h">Set of requirements even if you don’t write automated tests</li>
+          </ul>
         </section>
 
         <section>
